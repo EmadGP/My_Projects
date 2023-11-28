@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Welkom bij Wegwijzer
+
+Hallo{{voornaam}}!
+
+Bevestig uw e-mailadres door op de volgende link te klikken.
+Bevestigingslink: http://{{ domain }}{% url 'activate' uidb64=uid  token=token %}
+
+{% endautoescape%}
