@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail, EmailMessage
 from django.http import request
@@ -9,18 +10,23 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-
 from .forms import RegistrationForm, LoginForm
 from .tokens import generate_token
 from .models import MyUser as User
 
 
+# <-------------- Home Page -------------->
+
 def index(request):
+
     context = {
         "signup_form": RegistrationForm(),
         "login_form": LoginForm()
     }
     return render(request, 'login/index.html', context)
+
+
+# <-------------- User Registration -------------->
 
 def sign_up(request):
     form = RegistrationForm(request.POST)
@@ -56,6 +62,23 @@ def sign_up(request):
         messages.success(request,"Uw account is aangemaakt!")
         user.set_password(form.cleaned_data['password'])
         user.save()
+
+        # <-------------- Group selection -------------->
+
+        role = form.cleaned_data['role']
+
+        if role == 'Docent':
+            group_name = 'Docenten_Groep'
+        elif role == 'Student':
+            group_name = 'Studenten_Groep'
+        else:
+            group_name = None
+            messages.error(request, "Er is iets misgegaan!")
+            redirect("index")
+
+        if group_name:
+            group = Group.objects.get(name=group_name)
+            user.groups.add(group)
 
         # <-------------- Welcome Email -------------->
 
@@ -94,6 +117,8 @@ def sign_up(request):
 
     return render(request, 'login/index.html',context)
 
+# <-------------- User Authentication -------------->
+
 def sign_in(request):
     login_form = LoginForm(request.POST)
     if login_form.is_valid():
@@ -103,9 +128,15 @@ def sign_in(request):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            login(request, user)
-            voornaam = user.first_name
-            return render(request, "login/index.html", {"voornaam": voornaam})
+            if user.groups.filter(name='Docenten_Groep').exists():
+                return render(request, "login/docent_home.html")
+            elif user.groups.filter(name='Studenten_Groep').exists():
+                return render(request, "login/student_home.html")
+            else:
+                return render(request, "login/index.html")
+            # login(request, user)
+            # voornaam = user.first_name
+            # return render(request, "login/index.html", {"voornaam": voornaam})
         else:
             messages.error(request, "Gegevens komen niet overeen")
             return redirect("index")
@@ -117,11 +148,14 @@ def sign_in(request):
 
     return render(request, 'login/index.html', context)
 
+# <-------------- Logout -------------->
+
 def sign_out(request):
     logout(request)
     messages.success(request, "Uw bent uitgelogd!")
     return redirect('index')
 
+# <-------------- Account Activation -------------->
 
 def activate(request, uidb64, token):
     try:
