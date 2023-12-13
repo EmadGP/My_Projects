@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <h2>Student Home</h2>
+    {% if student_klassen %}
+        <ul>
+            {% for klas in student_klassen %}
+                <li><a href="{% url 'klas_gegevens' klas.id %}">{{ klas.naam }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Geen Klassen</p>
+
+    {% endif %}<button type="submit"> <a href="{% url 'sign_out' %}"> Sign-out</a> </button>
+
+</body>
+</html>

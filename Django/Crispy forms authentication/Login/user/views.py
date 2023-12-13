@@ -57,7 +57,7 @@ def sign_up(request):
             username=form.cleaned_data['first_name'] + " " + form.cleaned_data['last_name'],
             email=form.cleaned_data['email'],
             role=form.cleaned_data['role'],
-            is_active=False
+            is_active=True
         )
         messages.success(request,"Uw account is aangemaakt!")
         user.set_password(form.cleaned_data['password'])
@@ -128,10 +128,14 @@ def sign_in(request):
         user = authenticate(username=username, password=password)
 
         if user is not None:
+            login(request, user)
             if user.groups.filter(name='Docenten_Groep').exists():
-                return render(request, "login/docent_home.html")
+                # return render(request, "homepage/docent_home.html")
+                return redirect('docent_home')
             elif user.groups.filter(name='Studenten_Groep').exists():
-                return render(request, "login/student_home.html")
+                # return render(request, "homepage/student_home.html")
+                return redirect('student_home')
+
             else:
                 return render(request, "login/index.html")
             # login(request, user)

@@ -1,0 +1,50 @@
+<!-- klas_gegevens.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ klas.naam }} - Klas Gegevens</title>
+</head>
+<body>
+    <h2>{{ klas.naam }}</h2>
+
+    {% if klas.beschrijving %}
+        <h3>{{ klas.beschrijving }}</h3>
+    {% endif %}
+
+    <p>Docent: {{ klas.docent.username }}</p>
+
+    {% if user.role == "Docent" %}
+        {% if description_form %}
+            <h3>Edit Klas Beschrijving:</h3>
+            <form method="post" action="{% url 'klas_gegevens' klas.id %}">
+                {% csrf_token %}
+                {{ description_form.as_p }}
+                <button type="submit">Opslaan</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+    <h3>Students:</h3>
+    <ul>
+        {% for student in klas.studenten.all %}
+            <li>
+                {{ student.username }}
+                {% if user.role == "Docent" %}
+                    <a href="{% url 'delete_student' klas.id student.id %}">Delete</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if user.role == "Docent" %}
+        <h3>Student toevoegen:</h3>
+        <form method="post" action="{% url 'add_student' klas.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Zoek student</button>
+        </form>
+    {% endif %}
+
+</body>
+</html>

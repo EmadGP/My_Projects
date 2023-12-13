@@ -7,13 +7,6 @@
 </head>
 <body>
 
-{% if user.is_authenticated %}
-    <h3> Welcome {{voornaam}}</h3>
-    <h4> You are succesfully logged in</h4>
-    <button type="submit"> <a href="sign_out"> Sign-out</a> </button>
-
-{% else %}
-
     <div class="container">
 
         <div class="box">
@@ -54,7 +47,6 @@
         </div>
 
     </div>
-{% endif %}
 
 </body>
 </html>

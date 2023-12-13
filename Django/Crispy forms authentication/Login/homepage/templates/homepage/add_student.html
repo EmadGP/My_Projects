@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Student toevoegen aan klas: {{ klas.naam }}</h2>
+    <form method="post" action="{% url 'add_student' klas.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zoek student</button>
+    </form>
+
+    {% if form.is_bound and not form.errors %}
+        <h3>Resultaten:</h3>
+        {% if student %}
+            <p>Gebruikersnaam: {{ student.username }}</p>
+            <p>Voornaam: {{ student.first_name }}</p>
+            <p>Achternaam: {{ student.last_name }}</p>
+            <p>Deze gebruiker is een Docent!</p>
+            <form method="post" action="{% url 'add_student' klas.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="student_username" value="{{ student.username }}">
+                <button type="submit">Voeg toe aan klas</button>
+            </form>
+        {% else %}
+            <p>Geen student gevonden.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
