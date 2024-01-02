@@ -1,16 +1,13 @@
-# views.py
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-
-from .forms import StudentSearchForm, ClassroomForm, ClassroomDescriptionForm
-from .models import Klas
+from .forms import StudentSearchForm, ClassroomForm, ClassroomDescriptionForm, StagePeriodeForm
+from .models import Klas, StagePeriode
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-
 # User = settings.AUTH_USER_MODEL
 @login_required(login_url='index')
 def create_klas(request):
@@ -76,12 +73,21 @@ def student_home(request):
     student_klassen = request.user.klassen.all()
     return render(request, 'homepage/student_home.html', {'student_klassen': student_klassen})
 
+def student_profile(request, student_id):
+    student = get_object_or_404(User, id=student_id, groups__name='Studenten_Groep')
+
+    if request.method == 'POST':
+        if request.user.role == "Docent":
+            # Only allow the teacher to edit notes
+            student.notes = request.POST.get('notes', '')
+            student.save()
+    return render(request, 'homepage/student_profile.html', {'student': student})
 
 @login_required(login_url='index')
 def klas_gegevens(request, klas_id):
     klas = get_object_or_404(Klas, id=klas_id)
+    stage_periodes = StagePeriode.objects.filter(klas=klas)
 
-    # Only docent can edit the description
     if request.user == klas.docent:
         if request.method == 'POST':
             description_form = ClassroomDescriptionForm(request.POST, instance=klas)
@@ -90,6 +96,34 @@ def klas_gegevens(request, klas_id):
         else:
             description_form = ClassroomDescriptionForm(instance=klas)
     else:
-        description_form = None  # No form for non-docent users
+        description_form = None
 
-    return render(request, 'homepage/klas_gegevens.html', {'klas': klas, 'description_form': description_form})
+    return render(request, 'homepage/klas_gegevens.html', {'klas': klas, 'description_form': description_form, 'stage_periodes': stage_periodes})
+
+@login_required(login_url='index')
+def create_stage_periode(request, klas_id):
+    klas = get_object_or_404(Klas, id=klas_id, docent=request.user)
+
+    if request.method == 'POST':
+        form = StagePeriodeForm(request.POST)
+        if form.is_valid():
+            stage_periode = form.save(commit=False)
+            stage_periode.klas = klas
+            stage_periode.save()
+            return redirect('klas_gegevens', klas_id=klas.id)
+    else:
+        form = StagePeriodeForm()
+
+    return render(request, 'homepage/stage_periode_aanmaken.html', {'form': form, 'klas': klas})
+
+
+@login_required(login_url='index')
+def delete_stage_periode(request, klas_id, stage_periode_id):
+    klas = get_object_or_404(Klas, id=klas_id, docent=request.user)
+    stage_periode = get_object_or_404(StagePeriode, id=stage_periode_id, klas=klas)
+
+    if request.method == 'POST':
+        stage_periode.delete()
+        return redirect('klas_gegevens', klas_id=klas_id)
+
+    return render(request, 'homepage/delete_stage_periode.html', {'klas': klas, 'stage_periode': stage_periode})

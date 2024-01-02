@@ -1,4 +1,3 @@
-<!-- klas_gegevens.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,36 +5,94 @@
     <title>{{ klas.naam }} - Klas Gegevens</title>
 </head>
 <body>
-    <h2>{{ klas.naam }}</h2>
 
-    {% if klas.beschrijving %}
-        <h3>{{ klas.beschrijving }}</h3>
-    {% endif %}
+<h2>{{ klas.naam }}</h2>
 
-    <p>Docent: {{ klas.docent.username }}</p>
+<!--Dit is klas beschrijving-->
+
+{% if klas.beschrijving %}
+    <div id="classDescription">
+        <p id="beschrijving">{{ klas.beschrijving }}</p>
+        {% if user.role == "Docent" %}
+            <button onclick="enableEditMode()">Edit</button>
+        {% endif %}
+    </div>
+{% endif %}
+
+<p>Docent: {{ klas.docent.username }}</p>
+
+<div id="editMode" style="display: none;">
+    <form method="post" action="{% url 'klas_gegevens' klas.id %}">
+        {% csrf_token %}
+        {{ description_form.as_p }}
+        <button type="submit">Opslaan</button>
+        <button type="button" onclick="cancelEdit()">Cancel</button>
+    </form>
+</div>
+
+<script>
+
+    function enableEditMode() {
+        document.getElementById('classDescription').style.display = 'none';
+        document.getElementById('editMode').style.display = 'block';
+    }
+
+    function cancelEdit() {
+        document.getElementById('classDescription').style.display = 'block';
+        document.getElementById('editMode').style.display = 'none';
+    }
+</script>
 
     {% if user.role == "Docent" %}
-        {% if description_form %}
-            <h3>Edit Klas Beschrijving:</h3>
-            <form method="post" action="{% url 'klas_gegevens' klas.id %}">
-                {% csrf_token %}
-                {{ description_form.as_p }}
-                <button type="submit">Opslaan</button>
-            </form>
-        {% endif %}
+        <!-- Button voor stage periode aanmaken -->
+            <h3>Stage Periode Aanmaken:</h3>
+            <a href="{% url 'create_stage_periode' klas.id %}">
+                <button>Stage Periode Aanmaken</button>
+            </a>
     {% endif %}
+    <!-- Stage Periodes -->
+        <h3>Stage Periodes:</h3>
+        {% if stage_periodes %}
+            <ul>
+                {% for stage_periode in stage_periodes %}
+                    <li>
+                        <strong>{{ stage_periode.stage_soort }}</strong>
+                        <br>
+                        Start Datum: {{ stage_periode.start_datum }}
+                        <br>
+                        Eind Datum: {{ stage_periode.eind_datum }}
+                        <br>
+                        Min Uren: {{ stage_periode.min_uren }}
+                        <br>
+                        Verwachte Uren: {{ stage_periode.verwachte_uren }}
 
-    <h3>Students:</h3>
-    <ul>
-        {% for student in klas.studenten.all %}
-            <li>
+                    {% if user.role == "Docent" %}
+                        <form method="post" action="{% url 'delete_stage_periode' klas.id stage_periode.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Er zijn geen stageperiodes beschikbaar voor deze klas.</p>
+        {% endif %}
+
+
+<h3>Studenten:</h3>
+<ul>
+    {% for student in klas.studenten.all %}
+        <li>
+            {% if user.role == "Docent" %}
+                <a href="{% url 'student_profile' student.id %}">{{ student.username }}</a>
+                <a href="{% url 'delete_student' klas.id student.id %}">Delete</a>
+            {% else %}
                 {{ student.username }}
-                {% if user.role == "Docent" %}
-                    <a href="{% url 'delete_student' klas.id student.id %}">Delete</a>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
 
     {% if user.role == "Docent" %}
         <h3>Student toevoegen:</h3>

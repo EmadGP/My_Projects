@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Student Home</title>
 </head>
 <body>
- <h2>Student Home</h2>
+    <h2>Student Home</h2>
+
+    <button type="submit"> <a href="{% url 'student_profile' user.id %}">Profiel</a> </button>
+
     {% if student_klassen %}
         <ul>
             {% for klas in student_klassen %}
@@ -14,8 +17,9 @@
         </ul>
     {% else %}
         <p>Geen Klassen</p>
+    {% endif %}
 
-    {% endif %}<button type="submit"> <a href="{% url 'sign_out' %}"> Sign-out</a> </button>
+    <button type="submit"> <a href="{% url 'sign_out' %}"> Sign-out</a> </button>
 
 </body>
 </html>

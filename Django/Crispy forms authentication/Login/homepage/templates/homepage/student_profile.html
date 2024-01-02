@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ student.username }} - Profiel</title>
+</head>
+<body>
+    <h2>{{ student.username }} - Profiel</h2>
+
+
+    <h3>Docent Notities:</h3>
+    <p>{{ student.notes }}</p>
+
+    {% if user.role == "Docent" %}
+        <h3>Bewerk Notities:</h3>
+        <form method="post" action="{% url 'student_profile' student.id %}">
+            {% csrf_token %}
+            <textarea name="notes">{{ student.notes }}</textarea>
+            <button type="submit">Opslaan</button>
+        </form>
+    {% endif %}
+
+
+    <p>Gebruikersnaam: {{ student.first_name }} {{ student.last_name }}</p>
+    <p>Voornaam: {{ student.first_name }}</p>
+    <p>Achternaam: {{ student.last_name }}</p>
+
+    <p>Email: {{ student.email }}</p>
+
+    <h3>Klassen:</h3>
+    <ul>
+        {% for klas in student.klassen.all %}
+            <li>{{ klas.naam }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

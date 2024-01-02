@@ -1,0 +1,16 @@
+<!-- create_stage_periode.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Stage Periode</title>
+</head>
+<body>
+    <h2>Create Stage Periode for {{ klas.naam }}</h2>
+    <form method="post" action="{% url 'create_stage_periode' klas.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Stage Periode</button>
+    </form>
+</body>
+</html>
