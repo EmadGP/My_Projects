@@ -1,5 +1,5 @@
 from django import forms
-from .models import Klas, StagePeriode
+from .models import Klas, StagePeriode, Bedrijf
 
 
 class ClassroomForm(forms.ModelForm):
@@ -24,3 +24,7 @@ class StagePeriodeForm(forms.ModelForm):
             'eind_datum': forms.DateInput(attrs={'type': 'date'}),
         }
 
+class BedrijfForm(forms.ModelForm):
+    class Meta:
+        model = Bedrijf
+        fields = ['name', 'website', 'phone_number', 'email', 'description']

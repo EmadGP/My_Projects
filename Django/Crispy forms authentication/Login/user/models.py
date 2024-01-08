@@ -10,7 +10,7 @@ class MyUser(AbstractUser):
         ('Student', 'Student'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, null=True, blank=True)
-    notes = models.TextField(blank=True, null=True)
+    notes = models.TextField(default="Geen Notities",)
 
 
 

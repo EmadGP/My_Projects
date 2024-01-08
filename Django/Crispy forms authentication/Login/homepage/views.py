@@ -1,8 +1,8 @@
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import StudentSearchForm, ClassroomForm, ClassroomDescriptionForm, StagePeriodeForm
-from .models import Klas, StagePeriode
+from .forms import StudentSearchForm, ClassroomForm, ClassroomDescriptionForm, StagePeriodeForm, BedrijfForm
+from .models import Klas, StagePeriode, Bedrijf
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -99,7 +99,6 @@ def klas_gegevens(request, klas_id):
         description_form = None
 
     return render(request, 'homepage/klas_gegevens.html', {'klas': klas, 'description_form': description_form, 'stage_periodes': stage_periodes})
-
 @login_required(login_url='index')
 def create_stage_periode(request, klas_id):
     klas = get_object_or_404(Klas, id=klas_id, docent=request.user)
@@ -127,3 +126,40 @@ def delete_stage_periode(request, klas_id, stage_periode_id):
         return redirect('klas_gegevens', klas_id=klas_id)
 
     return render(request, 'homepage/delete_stage_periode.html', {'klas': klas, 'stage_periode': stage_periode})
+
+
+def bedrijf_details(request, bedrijf_id):
+    bedrijf = get_object_or_404(Bedrijf, id=bedrijf_id)
+
+    return render(request, 'homepage/bedrijf_details.html', {'bedrijf': bedrijf})
+
+def add_bedrijf(request, stage_id):
+    stage = get_object_or_404(StagePeriode, id=stage_id)
+
+    if request.method == 'POST':
+        form = BedrijfForm(request.POST)
+        if form.is_valid():
+            bedrijf = form.save(commit=True)
+            bedrijf.stage_periode = stage
+            bedrijf.save()
+            return redirect('stage_details', klas_id=stage.klas.id, stage_periode_id=stage.id)
+    else:
+        form = BedrijfForm()
+
+    return render(request, 'homepage/add_bedrijf.html', {'form': form, 'stage': stage})
+
+@login_required(login_url='index')
+def bedrijf_delete(request, bedrijf_id):
+    bedrijf = get_object_or_404(Bedrijf, id=bedrijf_id)
+
+    bedrijf.delete()
+    return redirect(stage_details, bedrijf.stage_periode.klas.id, bedrijf.stage_periode.id)
+
+
+def stage_details(request, klas_id, stage_periode_id):
+    klas = get_object_or_404(Klas, id=klas_id)
+    stage_periode = get_object_or_404(StagePeriode, id=stage_periode_id)
+
+    # Retrieve all bedrijven related to the stage_periode
+    bedrijven = Bedrijf.objects.filter(stage_periode=stage_periode)
+    return render(request, 'homepage/stage_details.html', {'klas': klas, 'stage_periode': stage_periode, 'bedrijven': bedrijven})

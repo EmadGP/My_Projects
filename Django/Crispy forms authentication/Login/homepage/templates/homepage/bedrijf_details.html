@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ bedrijf.name }} - Details</title>
+</head>
+<body>
+    <h2>{{ bedrijf.name }} - Details</h2>
+
+    <p>Website: {{ bedrijf.website }}</p>
+    <p>Telefoonnummer: {{ bedrijf.phone_number }}</p>
+    <p>Email: {{ bedrijf.email }}</p>
+    <p>Beschrijving: {{ bedrijf.description }}</p>
+
+    {% if user.role == "Docent" %}
+        <a href="{% url 'bedrijf_delete' bedrijf.id %}">Verwijder Bedrijf</a>
+    {% endif %}
+</body>
+</html>
