@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zakelijk home</title>
+</head>
+<body>
+    <h2>Zakelijk Home</h2>
+
+  {% if bedrijven %}
+    <h3>Bedrijven Linked to You:</h3>
+    <ul>
+      {% for bedrijf in bedrijven %}
+        <li>
+          <a href="{% url 'bedrijf_details' bedrijf_id=bedrijf.id %}">{{ bedrijf.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No bedrijven linked to you.</p>
+  {% endif %}
+
+    <button type="submit"> <a href="{% url 'sign_out' %}"> Sign-out</a> </button>
+
+</body>
+</html>

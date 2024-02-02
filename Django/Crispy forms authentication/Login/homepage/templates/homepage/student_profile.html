@@ -7,6 +7,10 @@
 <body>
     <h2>{{ student.username }} - Profiel</h2>
 
+    <p> <strong> Gebruikersnaam: </strong> {{ student.first_name }} {{ student.last_name }}</p>
+    <p> <strong> Voornaam: </strong> {{ student.first_name }}</p>
+    <p> <strong> Achternaam: </strong> {{ student.last_name }}</p>
+    <p> <strong> Email: </strong> {{ student.email }}</p>
 
     <h3>Docent Notities:</h3>
     <p>{{ student.notes }}</p>
@@ -18,14 +22,14 @@
             <textarea name="notes">{{ student.notes }}</textarea>
             <button type="submit">Opslaan</button>
         </form>
+
+        <h3>Bedrijven:</h3>
+        <ul>
+            {% for company in companies %}
+            <li>{{ company.name }} - {{company.status}}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
-
-
-    <p>Gebruikersnaam: {{ student.first_name }} {{ student.last_name }}</p>
-    <p>Voornaam: {{ student.first_name }}</p>
-    <p>Achternaam: {{ student.last_name }}</p>
-
-    <p>Email: {{ student.email }}</p>
 
     <h3>Klassen:</h3>
     <ul>

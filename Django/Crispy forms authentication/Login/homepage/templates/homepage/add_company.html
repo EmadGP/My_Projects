@@ -1,0 +1,7 @@
+<!-- add_company.html -->
+<h2>Add Company</h2>
+<form method="post" action="{% url 'add_company' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Company</button>
+</form>

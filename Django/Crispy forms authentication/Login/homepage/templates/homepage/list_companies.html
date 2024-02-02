@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bedrijven</title>
+</head>
+
+<body>
+<h2> Jouw Bedrijven</h2>
+<ul>
+    {% for company in companies %}
+        <li>
+            {{ company.name }} <br> {{ company.email }} <br> {{ company.website }} <br>
+            {% if user.role == "Student" %}
+                {{ company.status }}
+                <a href="{% url 'update_company_status' company.id %}" class="update-status-btn">Change Status</a>
+                <form action="{% url 'Aangenomen_company' company.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="status" value="Aangenomen" class="aangenomen-btn">Aangenomen</button>
+                </form>
+            {% endif %}
+
+            <p>Notes: {{ company.notes }}</p>
+            <a href="{% url 'add_company_note' company.id %}">Add Note</a>  <br>
+            <a href="{% url 'delete_company' company.id %}">Delete</a> <br><br>
+        </li>
+    {% endfor %}
+</ul>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti"></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const aangenomenButtons = document.querySelectorAll('.aangenomen-btn');
+
+        aangenomenButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                triggerConfetti();
+            });
+        });
+
+        function triggerConfetti() {
+            var confettiSettings = {
+                particleCount: 500,
+                spread: 100,
+                origin: { y: 0.6 },
+                ticks: 100,
+                gravity: 1
+            };
+            confetti(confettiSettings);
+        }
+    });
+</script>
+
+</body>
+</html>

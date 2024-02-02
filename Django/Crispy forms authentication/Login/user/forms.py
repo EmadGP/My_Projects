@@ -16,6 +16,7 @@ class RegistrationForm(forms.Form):
     ROLE_CHOICES = [
         ('Docent', 'Docent'),
         ('Student', 'Student'),
+        # ('Zakelijk', 'Zakelijk'),
     ]
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)

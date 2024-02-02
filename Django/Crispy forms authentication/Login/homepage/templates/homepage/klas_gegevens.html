@@ -8,8 +8,6 @@
 
 <h2>{{ klas.naam }}</h2>
 
-<!--Dit is klas beschrijving-->
-
 {% if klas.beschrijving %}
     <div id="classDescription">
         <p id="beschrijving">{{ klas.beschrijving }}</p>
@@ -44,18 +42,16 @@
 </script>
 
     {% if user.role == "Docent" %}
-        <!-- Button voor stage periode aanmaken -->
             <h3>Stage Periode Aanmaken:</h3>
             <a href="{% url 'create_stage_periode' klas.id %}">
                 <button>Stage Periode Aanmaken</button>
             </a>
     {% endif %}
-    <!-- Stage Periodes -->
+
 <h3>Stage Periodes:</h3>
 <ul>
     {% for stage_periode in stage_periodes %}
         <li>
-            <!-- Make the stage name a clickable link to detailed stage info -->
             <a href="{% url 'stage_details' klas_id=klas.id stage_periode_id=stage_periode.id %}">{{ stage_periode.stage_soort }}</a>
             <br>
             Start Datum: {{ stage_periode.start_datum }}
@@ -66,33 +62,38 @@
             <br>
             Verwachte Uren: {{ stage_periode.verwachte_uren }}
             <br>
-
-        </li>
-    {% endfor %}
-</ul>
-
-<h3>Studenten:</h3>
-<ul>
-    {% for student in klas.studenten.all %}
-        <li>
-            {% if user.role == "Docent" %}
-                <a href="{% url 'student_profile' student.id %}">{{ student.username }}</a>
-                <a href="{% url 'delete_student' klas.id student.id %}">Delete</a>
-            {% else %}
-                {{ student.username }}
+             {% if user.role == "Docent" %}
+                <form method="post" action="{% url 'delete_stage_periode' klas_id=klas.id stage_periode_id=stage_periode.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete Stage Periode</button>
+                </form>
             {% endif %}
         </li>
     {% endfor %}
 </ul>
 
-    {% if user.role == "Docent" %}
-        <h3>Student toevoegen:</h3>
-        <form method="post" action="{% url 'add_student' klas.id %}">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Zoek student</button>
-        </form>
-    {% endif %}
+<!--<h3>Studenten:</h3>-->
+<!--<ul>-->
+<!--    {% for student in klas.studenten.all %}-->
+<!--        <li>-->
+<!--            {% if user.role == "Docent" %}-->
+<!--                <a href="{% url 'student_profile' student.id %}">{{ student.username }}</a>-->
+<!--                <a href="{% url 'delete_student' klas.id student.id %}">Delete</a>-->
+<!--            {% else %}-->
+<!--                {{ student.username }}-->
+<!--            {% endif %}-->
+<!--        </li>-->
+<!--    {% endfor %}-->
+<!--</ul>-->
+
+<!--    {% if user.role == "Docent" %}-->
+<!--        <h3>Student toevoegen:</h3>-->
+<!--        <form method="post" action="{% url 'add_student' klas.id %}">-->
+<!--            {% csrf_token %}-->
+<!--            {{ form.as_p }}-->
+<!--            <button type="submit">Zoek student</button>-->
+<!--        </form>-->
+<!--    {% endif %}-->
 
 </body>
 </html>

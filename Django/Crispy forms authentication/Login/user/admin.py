@@ -9,5 +9,4 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
-
 admin.site.register(MyUser, CustomUserAdmin)

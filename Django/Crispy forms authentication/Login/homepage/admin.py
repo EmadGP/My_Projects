@@ -1,8 +1,5 @@
 from django.contrib import admin
-
-# Register your models here.
-
-from .models import Klas, Bedrijf
+from .models import Klas, Bedrijf, Job
 
 admin.site.register(Klas)
 admin.site.register(Bedrijf)

@@ -11,9 +11,40 @@
     <p>Telefoonnummer: {{ bedrijf.phone_number }}</p>
     <p>Email: {{ bedrijf.email }}</p>
     <p>Beschrijving: {{ bedrijf.description }}</p>
+    <p>Eigenaar: {{ bedrijf.zakelijk_gebruiker }}</p>
+
+<h3>Jobs:</h3>
+{% if jobs %}
+  <ul>
+    {% for job in jobs %}
+      <li>
+        {{ job.omschrijving }} - <br>
+        Start Date: {{ job.start_datum }} - <br>
+        End Date: {{ job.eind_datum }} - <br>
+        Status: {{ job.status }} <br>
+        {% if user.role == "Zakelijk" %}
+          <form method="post" action="{% url 'update_job_status' job.id %}">
+            {% csrf_token %}
+            <label for="status">Update Status:</label>
+            <input type="text" name="status" id="status" placeholder="Vol / Beschikbaar">
+            <button type="submit">Update Status</button>
+          </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No jobs available for {{ bedrijf.name }}.</p>
+{% endif %}
+
+    {% if user.role == "Zakelijk" %}
+      <a href="{% url 'create_job' bedrijf.id %}">Create Job</a>
+    {% endif %}
 
     {% if user.role == "Docent" %}
-        <a href="{% url 'bedrijf_delete' bedrijf.id %}">Verwijder Bedrijf</a>
+      <a href="{% url 'link_zakelijk_gebruiker' bedrijf_id=bedrijf.id %}">Link Zakelijk Gebruiker</a>
+      <br>
+      <a href="{% url 'bedrijf_delete' bedrijf.id %}">Verwijder Bedrijf</a>
     {% endif %}
 </body>
 </html>

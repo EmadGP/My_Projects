@@ -6,24 +6,31 @@
 </head>
 <body>
 
-<!-- stage_details.html -->
-
 <h2>{{ stage_periode.stage_soort }} Details</h2>
 
-<!-- Display information about the StagePeriode -->
-
-<h3>Bedrijven:</h3>
-<ul>
-  {% for bedrijf in bedrijven %}
-    <li>
-      <a href="{% url 'bedrijf_details' bedrijf.id %}">{{ bedrijf.name }}</a>
-    </li>
-  {% endfor %}
-</ul>
-
-
 {% if user.role == "Docent" %}
-  <a href="{% url 'add_bedrijf' stage_id=stage_periode.id %}">Voeg Bedrijf Toe</a>
+    <a href="{% url 'add_student' klas_id=klas.id %}">Add Student</a>
+{% endif %}
+
+{% if klas.studenten.all %}
+    <h4>Students in {{ stage_periode.stage_soort }}:</h4>
+    <ul>
+        {% for student in klas.studenten.all %}
+            <li>
+                {% if user.role == "Docent" %}
+                    <a href="{% url 'student_profile' student.id %}">{{ student.username }}</a>
+                {% else %}
+                    {{ student.username }}
+                {% endif %}
+                <form method="post" action="{% url 'delete_student_from_stage' klas_id=klas.id stage_periode_id=stage_periode.id student_id=student.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    {% if user.role == "Docent" %}
+                        <button type="submit">Delete</button>
+                    {% endif %}
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 </body>

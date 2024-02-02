@@ -1,5 +1,5 @@
 from django import forms
-from .models import Klas, StagePeriode, Bedrijf
+from .models import *
 
 
 class ClassroomForm(forms.ModelForm):
@@ -28,3 +28,47 @@ class BedrijfForm(forms.ModelForm):
     class Meta:
         model = Bedrijf
         fields = ['name', 'website', 'phone_number', 'email', 'description']
+
+
+class LinkZakelijkGebruikerForm(forms.ModelForm):
+    class Meta:
+        model = Bedrijf
+        fields = ['zakelijk_gebruiker']
+
+class CreateJobForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = ['omschrijving','start_datum', 'eind_datum', 'gevraagde_vaardigheden', 'status']
+        widgets = {
+            'start_datum': forms.DateInput(attrs={'type': 'date'}),
+            'eind_datum': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class UpdateJobStatusForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = ['status']
+
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        exclude = ['added_by']
+        fields = ['name', 'email', 'website', 'status']
+
+class CompanyFormDocent(forms.ModelForm):
+    class Meta:
+        model = Company
+        exclude = ['added_by']
+        fields = ['name', 'email', 'website']
+
+
+class CompanyStatusUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ['status']
+
+
+class CompanyNoteForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ['notes']

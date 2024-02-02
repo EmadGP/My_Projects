@@ -71,6 +71,8 @@ def sign_up(request):
             group_name = 'Docenten_Groep'
         elif role == 'Student':
             group_name = 'Studenten_Groep'
+        elif role == 'Zakelijk':
+            group_name = 'Zakelijke_Groep'
         else:
             group_name = None
             messages.error(request, "Er is iets misgegaan!")
@@ -135,6 +137,9 @@ def sign_in(request):
             elif user.groups.filter(name='Studenten_Groep').exists():
                 # return render(request, "homepage/student_home.html")
                 return redirect('student_home')
+            elif user.groups.filter(name='Zakelijke_Groep').exists():
+                # return render(request, "homepage/zakelijk_home.html")
+                return redirect('zakelijk_home')
 
             else:
                 return render(request, "login/index.html")

@@ -1,0 +1,37 @@
+<!-- update_company_status.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Company Status</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+</head>
+<body>
+
+<h2>Update Status for {{ company.name }}</h2>
+
+<form method="post" action="{% url 'update_company_status' company.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update Status</button>
+</form>
+
+
+
+<script>
+    function celebrateAangenomen() {
+        particlesJS('confetti', {
+            particles: {
+                number: { value: 100 },
+                color: { value: '#FFD700' },
+                shape: { type: 'circle' },
+            },
+        });
+
+        confetti.start();
+    }
+</script>
+
+</body>
+</html>
