@@ -1,0 +1,117 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static '/css/index.css' %}">
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+        <h3> Welcome {{voornaam}}</h3>
+        <h4> You are succesfully logged in</h4>
+        <button type="submit"> <a href="sign_out"> Sign-out</a> </button>
+
+    {% else %}
+
+<div class="container">
+
+    <div class="box">
+        <div class="form sign_in">
+            {% for message in messages %}
+
+               <button type="button" class="btn btn-success" style="background-color: #427BA2; margin-bottom: 20px; ">
+                    <svg  onclick="this.parentElement.style.display='none';" xmlns="http://www.w3.org/2000/svg" width="14" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 14 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"></path>
+                    </svg>
+                    {{ message }}
+              </button>
+            {% endfor %}
+
+            <h3>Sign In</h3>
+            <span>of log in met je account</span>
+
+            <form action="sign_in" method="post" id="form_input">
+                {% csrf_token %}
+
+                <div class="type">
+                    <input type="text" id="user" name="user" placeholder="Voornaam + achternaam" required>
+                </div>
+
+                <div class="type">
+                    <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" required>
+                </div>
+
+                <button type="submit" class="btn bkg">Sign In</button>
+            </form>
+        </div>
+
+        <div class="form sign_up">
+            <h3>Sign Up</h3>
+            <span>of gebruik uw e-mailadres om u te registreren</span>
+
+            <form action="sign_up" method="post" id="form_input">
+                {% csrf_token %}
+
+                <div class="type">
+                    <input type="text" id="user" name="voornaam" placeholder="Voornaam" required>
+                </div>
+
+                <div class="type">
+                    <input type="text" id="achternaam" name="achternaam" placeholder="Achternaam" required>
+                </div>
+
+                <div class="type">
+                    <input type="email" id="mail" name="mail" placeholder="Email" required>
+                </div>
+
+                <div class="type">
+                    <input type="password" id="wachtwoord" name="wachtwoord" placeholder="Wachtwoord" required>
+                </div>
+
+                <button type="submit" class="btn bkg">Sign Up</button>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="overlay">
+        <div class="page page_signIn">
+            <img class="logo_1" src="{% static '/images/logo.png'%}" >
+            <h3>Welkom terug!</h3>
+         <p>Om bij ons te blijven, logt u in met uw persoonlijke gegevens</p>
+
+            <button class="btn btnSign-in">Sign Up <i class="bi bi-arrow-right"></i></button>
+        </div>
+
+        <div class="page page_signUp">
+            <img class="logo_2" src="{% static '/images/logo.png'%}" >
+            <h3>Welkom!</h3>
+            <p>Voer uw persoonlijke gegevens in en begin uw reis met ons</p>
+
+            <button class="btn btnSign-up">
+                <i class="bi bi-arrow-left"></i> Sign In</button>
+        </div>
+    </div>
+</div>
+    {% endif %}
+
+    <script>
+        const container = document.querySelector('.container')
+        const btnSignIn = document.querySelector('.btnSign-in')
+        const btnSignUp = document.querySelector('.btnSign-up')
+
+        btnSignIn.addEventListener('click', () => {
+            container.classList.add('active')
+        })
+
+        btnSignUp.addEventListener('click', () => {
+            container.classList.remove('active')
+        })
+    </script>
+</body>
+</html>
