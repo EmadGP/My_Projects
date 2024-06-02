@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <link rel="stylesheet" href="{% static '/css/home.css' %}">
+
+</head>
+<body>
+
+<header>
+    <img src="{% static '/images/logo.png' %}" alt="Jukebox">
+    <h1 class="Jukebox">Jukebox</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Playlists</a></li>
+            <li><a href="#" class="logout">Log out</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>

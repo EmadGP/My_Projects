@@ -1,0 +1,12 @@
+{% extends 'app/home.html' %}
+
+
+{% block title %}Home - Genre{% endblock %}
+
+{% block content %}
+{% for genre in Genres%}
+<div class="genre_box">
+    <h2><a class="genre_name" href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a></h2>
+</div>
+{% endfor %}
+{% endblock %}

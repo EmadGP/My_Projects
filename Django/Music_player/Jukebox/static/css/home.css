@@ -1,0 +1,55 @@
+header {
+    display: flex;
+    background-color: #2c5c64;
+    color: white;
+    padding: 10px;
+    align-items: center;
+}
+.Jukebox {
+    font-size: 45px;
+    margin-left: 20px;
+}
+img {
+    width: 80px;
+    height: 80px;
+}
+nav{
+    margin-left: auto;
+    margin-right: 20px;
+}
+ul {
+    display: flex;
+    list-style-type: none;
+    justify-self: center;
+    align-self: center;
+}
+a {
+    text-decoration: none;
+    color: white;
+    font-size:40px;
+    margin-right: 40px;
+}
+
+a.logout {
+    margin-left: 200px;
+}
+
+.genre_name {
+    color:black;
+}
+
+.genre_box{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    border: 1px solid black;
+}
+
+.Song_box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    border: 1px solid black;
+}

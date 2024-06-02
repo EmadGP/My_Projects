@@ -61,7 +61,7 @@ def sign_in(request):
         if user is not None:
             login(request, user)
             voornaam = user.first_name
-            return redirect("jasem")
+            return redirect("Home")
         else:
             messages.error(request, "Gegevens komen niet overeen")
             return redirect("home")

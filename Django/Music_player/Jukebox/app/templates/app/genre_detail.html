@@ -1,0 +1,16 @@
+{% extends 'app/home.html' %}
+
+{% block title %}Songs in {{ genre.name }}{% endblock %}
+
+{% block content %}
+<h1>Songs in {{ genre.name }}</h1>
+    {% for song in songs %}
+        <div class="Song_box">
+            {{ song.title }} by {{ song.artist }} <br>
+        </div>
+
+    {% empty %}
+        No songs available in this genre.
+    {% endfor %}
+<a class="genre_name" href="{% url 'Home' %}">Back to Genres</a>
+{% endblock %}
