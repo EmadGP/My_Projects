@@ -4,9 +4,14 @@
 {% block title %}Home - Genre{% endblock %}
 
 {% block content %}
+<div class="genre_parent_container">
 {% for genre in Genres%}
-<div class="genre_box">
-    <h2><a class="genre_name" href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a></h2>
+<div class="genre_container">
+    <div class="genre_box">
+        <img class="genre_image" src="{{ genre.image.url }}" alt="{{ genre.name }}">
+        <p><a class="genre_name" href="{% url 'genre_detail' genre.id %}">{{ genre.name }}</a></p>
+    </div>
 </div>
 {% endfor %}
+</div>`
 {% endblock %}

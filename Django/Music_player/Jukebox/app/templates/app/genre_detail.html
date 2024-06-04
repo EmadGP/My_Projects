@@ -3,6 +3,8 @@
 {% block title %}Songs in {{ genre.name }}{% endblock %}
 
 {% block content %}
+<div class="song_parent">
+
 <h1>Songs in {{ genre.name }}</h1>
     {% for song in songs %}
         <div class="Song_box">
@@ -12,5 +14,6 @@
     {% empty %}
         No songs available in this genre.
     {% endfor %}
-<a class="genre_name" href="{% url 'Home' %}">Back to Genres</a>
+</div>
+
 {% endblock %}
