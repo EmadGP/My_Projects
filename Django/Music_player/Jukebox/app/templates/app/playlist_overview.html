@@ -1,0 +1,23 @@
+{% extends 'app/home.html' %}
+
+{% block title %} Playlists {% endblock %}
+
+{% block content %}
+<h1>Your Playlists</h1>
+<div class="playlist_overview">
+
+    {% for playlist in playlists %}
+        <div class="playlist_row">
+            <p><a class="playlist" href=" {% url 'playlist_detail' playlist.id %} ">{{ playlist.name}}</a></p>
+            <a class="delete" href="{% url 'deleting_playlist' playlist.id %}"> Delete </a>
+        </div>
+
+    {% empty %}
+        You haven't created any playlists yet.
+    {% endfor %}
+    <br>
+    <br>
+    <a class="button" href="{% url 'creating_playlist' %}"> Create playlist </a>
+</div>
+
+{% endblock %}

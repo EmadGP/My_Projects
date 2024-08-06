@@ -18,6 +18,7 @@ class Command(BaseCommand):
                 title=fake.sentence(nb_words=2),  # Fake song title
                 artist=fake.name(),  # Fake artist name
                 genre=random.choice(genres),  # Random genre from the custom list
+                duration=random.randint(60, 240)  # Random duration between 1 and 10 minutes
             )
 
         self.stdout.write(self.style.SUCCESS('Successfully populated the database with fake data'))

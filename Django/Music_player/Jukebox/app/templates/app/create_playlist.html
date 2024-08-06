@@ -1,0 +1,25 @@
+{% extends 'app/home.html' %}
+
+{% block title %} Playlist Creation {% endblock %}
+
+{% block content %}
+<h1>What do you want to call this new playlist?</h1>
+
+<form method="POST" action="{% url 'creating_playlist' %}">
+    {% csrf_token %}
+    {{ form.name }}
+    <br>
+    <input class="button" type="submit" name="Create Playlist">
+</form>
+
+
+<!--<div class="\">-->
+<!--    <form action="" method="post">-->
+<!--        {% csrf_token %}-->
+<!--        <input type="text" name="playlist_name" placeholder="Playlist Name">-->
+<!--        <br>-->
+<!--        <button class="button" type="submit">Create Playlist</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+{% endblock %}

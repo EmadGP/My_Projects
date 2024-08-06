@@ -1,19 +1,37 @@
 {% extends 'app/home.html' %}
-
+{% load operations %}
+{% load static %}
 {% block title %}Songs in {{ genre.name }}{% endblock %}
 
 {% block content %}
-<div class="song_parent">
-
 <h1>Songs in {{ genre.name }}</h1>
+<div class="song_parent">
     {% for song in songs %}
-        <div class="Song_box">
-            {{ song.title }} by {{ song.artist }} <br>
-        </div>
 
+        <div class="Song_box">
+            <button class="add_btn"> + </button>
+            <div class="popup">
+                <div class="popup-content">
+                    <h1 style="color: #2c5c64">Select a playlist:</h1>
+                    {% for playlist in playlists %}
+                        <p>{{playlist.name}}</p>
+                    {% endfor %}
+                    <button class="closePopup">Close</button>
+                </div>
+            </div>
+
+            <div class="song_details">
+                <strong>{{ song.title|cut }}</strong>
+                <br>
+                {{ song.artist }}
+                <br>
+                {{ song.duration|seconds_to_minutes }}
+            </div>
+        </div>
     {% empty %}
         No songs available in this genre.
     {% endfor %}
 </div>
-
+<script src="{% static 'javascript/add_button.js' %}"></script>
 {% endblock %}
+e
