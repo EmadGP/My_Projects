@@ -52,6 +52,27 @@ def deleting_playlist(request, pk):
 
 @login_required(login_url='Home')
 def playlist_detail(request, playlist_id):
+    duration = 0
     playlist = get_object_or_404(Playlist, id=playlist_id)
     songs = playlist.songs.all()
-    return render(request, 'app/playlist_detail.html', {'playlist': playlist, 'songs': songs})
+    for song in songs:
+        duration += song.duration
+    return render(request, 'app/playlist_detail.html', {'playlist': playlist, 'songs': songs, 'duration': duration})
+
+@login_required(login_url='Home')
+def add_song(request, playlist_id, song_id):
+    playlist = get_object_or_404(Playlist, id=playlist_id)
+    song = get_object_or_404(Song, id=song_id)
+
+    playlist.songs.add(song)
+
+    return redirect("genre_detail", genre_id=song.genre.id)
+
+@login_required(login_url='Home')
+def remove_song(request, playlist_id, song_id):
+    playlist = get_object_or_404(Playlist, id=playlist_id)
+    song = get_object_or_404(Song, id=song_id)
+
+    playlist.songs.remove(song)
+
+    return redirect("playlist_detail", playlist_id=playlist.id)

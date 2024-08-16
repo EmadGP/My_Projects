@@ -12,3 +12,11 @@ def seconds_to_minutes(value):
 def cut(value):
     x = value.rstrip("...")
     return x
+
+@register.filter
+def total_duration(value):
+    total = 0
+    for song in value:
+        total += song.duration
+    duration = seconds_to_minutes(total)
+    return duration

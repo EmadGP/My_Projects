@@ -1,0 +1,31 @@
+{% extends 'app/home.html' %}
+{% load operations %}
+{% load static %}
+{% block title %} Playlists {% endblock %}
+
+{% block content %}
+<h1>Songs in {{playlist.name}}</h1>
+
+<div class="song_parent">
+    {% for song in songs %}
+        <div class="Song_box">
+            <a href="{% url 'remove_song' playlist.id song.id %}" class="add_btn"> x </a>
+
+            <div class="song_details">
+                <strong>{{ song.title|cut }}</strong>
+                <br>
+                {{ song.artist }}
+                <br>
+                {{ song.duration|seconds_to_minutes }}
+            </div>
+        </div>
+    {% empty %}
+        No songs available in this genre.
+    {% endfor %}
+</div>
+
+<div class="duration">
+   <strong>Total duration: </strong>
+    {{ duration|seconds_to_minutes }}
+</div>
+{% endblock %}

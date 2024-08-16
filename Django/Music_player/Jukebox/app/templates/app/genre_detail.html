@@ -14,7 +14,14 @@
                 <div class="popup-content">
                     <h1 style="color: #2c5c64">Select a playlist:</h1>
                     {% for playlist in playlists %}
-                        <p>{{playlist.name}}</p>
+
+                        <a  style="color: black; font-size: medium; cursor:pointer"
+                            href="{% url 'add_song' playlist.id song.id %}"
+                        >
+                            {{playlist.name}}
+                        </a>
+
+                        <br>
                     {% endfor %}
                     <button class="closePopup">Close</button>
                 </div>
@@ -34,4 +41,3 @@
 </div>
 <script src="{% static 'javascript/add_button.js' %}"></script>
 {% endblock %}
-e

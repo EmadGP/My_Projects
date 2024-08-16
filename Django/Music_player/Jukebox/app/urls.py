@@ -9,5 +9,7 @@ urlpatterns = [
     path('playlist/create/', views.creating_playlist, name='creating_playlist'),
     path('playlist/delete/<int:pk>/', views.deleting_playlist, name='deleting_playlist'),
     path('playlist/<int:playlist_id>/', views.playlist_detail, name='playlist_detail'),
+    path('addsong/<int:playlist_id>/<int:song_id>/', views.add_song, name='add_song'),
+    path('removesong/<int:playlist_id>/<int:song_id>/', views.remove_song, name='remove_song'),
     path("sign_out", sign_out, name="sign_out"),
 ]
