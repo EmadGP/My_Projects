@@ -8,7 +8,6 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-
 from django.shortcuts import render
 
 def index(request):
@@ -25,19 +24,19 @@ def sign_up(request):
 
         if User.objects.filter(email=mail):
             messages.error(request, "Email is al in gebruik! ")
-            return redirect("home")
+            return redirect("index")
 
         if not isinstance(voornaam,str):
             messages.error(request, "Gebruik alleen letters voor uw naam!")
-            return redirect("home")
+            return redirect("index")
 
         if not isinstance(achternaam,str):
             messages.error(request, "Gebruik alleen letters voor uw achternaam!")
-            return redirect("home")
+            return redirect("index")
 
         if User.objects.filter(username=user_name):
             messages.error(request, "Gebruikersnaam bestaat al!")
-            return redirect("home")
+            return redirect("index")
 
         myuser = User.objects.create_user(user_name, mail, wachtwoord)
         myuser.first_name = voornaam
@@ -61,10 +60,10 @@ def sign_in(request):
         if user is not None:
             login(request, user)
             voornaam = user.first_name
-            return redirect("Home")
+            return redirect("home")
         else:
             messages.error(request, "Gegevens komen niet overeen")
-            return redirect("home")
+            return redirect("index")
 
     return render(request, 'authentication/index.html')
 
@@ -74,4 +73,4 @@ def sign_in(request):
 def sign_out(request):
     logout(request)
     messages.success(request, "Uw bent uitgelogd!")
-    return redirect('home')
+    return redirect('index')
