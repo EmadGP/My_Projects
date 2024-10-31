@@ -11,7 +11,7 @@
     <header>
         <img src="{% static '/images/ASVZ_logo.jpg' %}">
         <a class="home_btn" href="#"> Home </a>
-        <a class="logout_btn" href="#"> Logout</a>
+        <a class="logout_btn" href="{% url 'sign_out' %}"> Logout</a>
     </header>
 
     <div class="container">
@@ -35,10 +35,13 @@
             <h4>Laatst gesnoozed: 04:22</h4>
         </div>
 
+
     </div>
 
     <footer>
-
+        <h1>Deactivated Pomps:</h1>
+        <h2>Pomp 2 deactivated om 09:12</h2>
     </footer>
+
 </body>
 </html>
