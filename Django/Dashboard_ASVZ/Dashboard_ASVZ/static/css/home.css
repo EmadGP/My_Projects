@@ -1,0 +1,40 @@
+header{
+    background-color: #103561;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+img {
+    height: 100px;
+}
+
+.home_btn, .logout_btn{
+    font-size:40px;
+    margin-left: 30px;
+    text-decoration: none;
+    color: white
+}
+
+.logout_btn {
+    margin-left: auto;
+}
+
+.container{
+    margin:30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+}
+
+.pomp{
+    display: block;
+    border: 3px solid #d91279;
+    border-radius: 20px;
+    padding:10px;
+    width: 250px;
+    height: 80px;
+}
+

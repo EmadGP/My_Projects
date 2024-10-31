@@ -1,10 +1,44 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static '/css/home.css' %}">
 </head>
 <body>
-    Hiiiii
+    <header>
+        <img src="{% static '/images/ASVZ_logo.jpg' %}">
+        <a class="home_btn" href="#"> Home </a>
+        <a class="logout_btn" href="#"> Logout</a>
+    </header>
+
+    <div class="container">
+        <div class="pomp">
+            <h2 style="margin-top: 0px">Pomp 1</h2>
+            <h4>Laatst gesnoozed: 22:47</h4>
+        </div>
+
+        <div class="pomp">
+            <h2 style="margin-top: 0px">Pomp 2</h2>
+            <h4>Laatst gesnoozed: 08:12</h4>
+        </div>
+
+        <div class="pomp">
+            <h2 style="margin-top: 0px">Pomp 3</h2>
+            <h4>Laatst gesnoozed: 20:10</h4>
+        </div>
+
+        <div class="pomp">
+            <h2 style="margin-top: 0px">Pomp 4</h2>
+            <h4>Laatst gesnoozed: 04:22</h4>
+        </div>
+
+    </div>
+
+    <footer>
+
+    </footer>
 </body>
 </html>
