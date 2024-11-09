@@ -1,47 +1,31 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Pomps</title>
     <link rel="stylesheet" href="{% static '/css/home.css' %}">
 </head>
 <body>
     <header>
-        <img src="{% static '/images/ASVZ_logo.jpg' %}">
-        <a class="home_btn" href="#"> Home </a>
-        <a class="logout_btn" href="{% url 'sign_out' %}"> Logout</a>
+        <img src="{% static '/images/ASVZ_logo.jpg' %}" alt="ASVZ Logo">
+        <a class="home_btn" href="#">Home</a>
+        <a class="logout_btn" href="{% url 'sign_out' %}">Logout</a>
     </header>
 
     <div class="container">
+        {% for pump in pumps %}
         <div class="pomp">
-            <h2 style="margin-top: 0px">Pomp 1</h2>
-            <h4>Laatst gesnoozed: 22:47</h4>
+            <h2>{{ pump.name }}</h2>
+            <h4>Laatst gesnoozed: {{ pump.last_snoozed|date:"H:i" }}</h4>
         </div>
-
-        <div class="pomp">
-            <h2 style="margin-top: 0px">Pomp 2</h2>
-            <h4>Laatst gesnoozed: 08:12</h4>
-        </div>
-
-        <div class="pomp">
-            <h2 style="margin-top: 0px">Pomp 3</h2>
-            <h4>Laatst gesnoozed: 20:10</h4>
-        </div>
-
-        <div class="pomp">
-            <h2 style="margin-top: 0px">Pomp 4</h2>
-            <h4>Laatst gesnoozed: 04:22</h4>
-        </div>
-
-
+        {% endfor %}
     </div>
 
     <footer>
         <h1>Deactivated Pomps:</h1>
         <h2>Pomp 2 deactivated om 09:12</h2>
     </footer>
-
 </body>
 </html>
