@@ -1,0 +1,33 @@
+image: lorisleiva/laravel-docker:8.2
+
+assets:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-assets
+    paths:
+      - vendor/
+      - node_modules/
+  script:
+    - composer install --no-interaction --no-progress --no-scripts
+    - npm install
+    - npm run build
+    - cp .env.example .env
+    - php artisan key:generate
+  artifacts:
+    expire_in: 1 month
+    paths:
+      - vendor/
+      - node_modules/
+      - public/build/
+      - public/css/
+      - public/js/
+      - .env
+
+phpunit:
+  stage: test
+  dependencies:
+    - assets
+  script:
+    - touch database/testing.sqlite
+    - vendor/bin/pest
+    - rm database/testing.sqlite

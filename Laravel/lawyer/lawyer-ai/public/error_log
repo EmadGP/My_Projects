@@ -1,0 +1,5 @@
+[03-Dec-2024 10:46:27 Europe/London] PHP Warning:  require(/home/emadstage/apps/lawyer-ai/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/emadstage/apps/lawyer-ai/public/index.php on line 13
+[03-Dec-2024 10:46:27 Europe/London] PHP Fatal error:  Uncaught Error: Failed opening required '/home/emadstage/apps/lawyer-ai/public/../vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/emadstage/apps/lawyer-ai/public/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/emadstage/apps/lawyer-ai/public/index.php on line 13
