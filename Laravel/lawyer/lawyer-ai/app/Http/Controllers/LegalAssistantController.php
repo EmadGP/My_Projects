@@ -8,11 +8,6 @@ use GuzzleHttp\Client;
 
 class LegalAssistantController extends Controller
 {
-    /**
-     * System prompt that defines the AI's behavior and response structure.
-     * This heredoc contains detailed instructions for the AI about its role
-     * as a Dutch legal assistant.
-     */
     private $systemPrompt = <<<EOT
 Je bent een geavanceerde Nederlandse juridische AI-assistent met diepgaande kennis van het Nederlandse rechtssysteem. Je beschikt over uitgebreide kennis van wetboeken, jurisprudentie en rechtspraktijk. Je taak is om professioneel juridisch inzicht te bieden:
 
@@ -60,10 +55,7 @@ Structureer je antwoord altijd als volgt:
 Als AI-assistent ben je in staat om gedetailleerd juridisch inzicht te geven, maar vermeld wel dat je advies niet bindend is en gebaseerd is op algemene juridische principes.
 EOT;
 
-    /**
-     * Display the chat interface and reset the chat history.
-     * This ensures each new session starts fresh.
-     */
+
     public function showChatInterface()
     {
         // Clear chat history when loading the page
@@ -71,10 +63,6 @@ EOT;
         return view('legal-advice');
     }
 
-    /**
-     * Process the user's legal question and get AI response.
-     * Maintains conversation history for context awareness.
-     */
     public function getLegalAdvice(Request $request)
     {
         // Validate the incoming request
@@ -83,7 +71,6 @@ EOT;
         ]);
 
         try {
-            // Get chat history from session or initialize empty array
             $chatHistory = session('chat_history', []);
 
             // Add system message if this is the first message
