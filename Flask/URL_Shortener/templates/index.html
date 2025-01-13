@@ -2,23 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tensai URL Shortening</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    {% with messages = get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            <ul>
-                {% for category, message in messages %}
-                    <li class="{{ category }}"> {{ message }} </li>
-                {% endfor %}
-            </ul>
-          {% endif %}
-    {% endwith %}
+    <div class="container">
+        <header>
+            <div class="user-welcome">
+                <div class="avatar">
+                    <img src="https://ui-avatars.com/api/?name=Guest&background=7c3aed&color=fff" alt="User avatar">
+                </div>
+                <div class="welcome-text">
+                    <span>welcome</span>
+                    <h2>Guest User</h2>
+                </div>
+            </div>
+            <div class="logo-section">
+                <h1>Tensai URL shortening</h1>
+                <img src="{{ url_for('static', filename='images/katana.svg') }}" alt="Katana logo" class="katana-logo">
+            </div>
+        </header>
+        
+        <main>
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% if messages %}
+                    <ul class="messages">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}"> {{ message }} </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
 
-    <form method="post" action="/">
-        <label>Please paste the URL here: </label>
-        <input id="input" name="url" type="url" placeholder="https://example.com">
-        <button type="submit"> Submit </button>
-    </form>
+            <div class="search-container">
+                <form method="post" action="/">
+                    <div class="input-wrapper">
+                        <input type="url" name="url" placeholder="https://example.com" required>
+                        <button type="button" class="search-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" name="custom_url" placeholder="My_custom">
+                    </div>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </form>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
